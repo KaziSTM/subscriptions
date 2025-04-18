@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-use Laravelcm\Subscriptions\Models\Feature;
-use Laravelcm\Subscriptions\Models\Plan;
-use Laravelcm\Subscriptions\Models\Subscription;
-use Laravelcm\Subscriptions\Models\SubscriptionUsage;
+
+use KaziSTM\Subscriptions\Models\Feature;
+use KaziSTM\Subscriptions\Models\Limitation;
+use KaziSTM\Subscriptions\Models\Plan;
+use KaziSTM\Subscriptions\Models\Subscription;
+use KaziSTM\Subscriptions\Models\SubscriptionUsage;
 
 return [
 
