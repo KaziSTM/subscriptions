@@ -72,7 +72,7 @@ class InstallCommand extends Command
         $filesystem = app(Filesystem::class);
 
         foreach ($files as $file) {
-            $source = "{$stubDir}/{$file}.php.stub";
+            $source = "{$stubDir}/{$file}.php";
             $destination = app_path("{$type}/{$file}.php");
 
             if (!file_exists($destination)) {
