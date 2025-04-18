@@ -14,16 +14,11 @@ class InstallCommand extends Command
     {
         $this->info('🔧 Installing Subscriptions Package...');
 
-        $this->publishResources();
-
-        $this->info('✅ Subscriptions installed successfully!');
-    }
-
-    protected function publishResources(): void
-    {
         $this->publishConfig();
         $this->publishMigrations();
         $this->publishModels();
+
+        $this->info('✅ Subscriptions installed successfully!');
     }
 
     protected function publishConfig(): void
@@ -39,10 +34,10 @@ class InstallCommand extends Command
     {
         $this->info('📦 Publishing migrations...');
 
-        $this->publishFilesFromStubs(
-            __DIR__ . "/../../database/migrations",
-            'migrations',
-            [
+        $this->publishFiles(
+            basePath: dirname(__DIR__, 2) . '/database/migrations',
+            destination: database_path('migrations'),
+            files: [
                 'create_plans_table',
                 'create_limitations_table',
                 'create_plan_features_table',
@@ -54,10 +49,10 @@ class InstallCommand extends Command
 
     protected function publishModels(): void
     {
-        $this->publishFilesFromStubs(
-            __DIR__ . "/../../stubs/Models",
-            'Models',
-            [
+        $this->publishFiles(
+            basePath: dirname(__DIR__) . '/Models',
+            destination: app_path('Models'),
+            files: [
                 'Plan',
                 'Feature',
                 'Limitation',
@@ -67,17 +62,17 @@ class InstallCommand extends Command
         );
     }
 
-    protected function publishFilesFromStubs(string $stubDir, string $type, array $files): void
+    protected function publishFiles(string $basePath, string $destination, array $files): void
     {
         $filesystem = app(Filesystem::class);
 
         foreach ($files as $file) {
-            $source = "{$stubDir}/{$file}.php";
-            $destination = app_path("{$type}/{$file}.php");
+            $source = "{$basePath}/{$file}.php";
+            $target = "{$destination}/{$file}.php";
 
-            if (!file_exists($destination)) {
-                $filesystem->ensureDirectoryExists(app_path($type));
-                $filesystem->copy($source, $destination);
+            if (!file_exists($target)) {
+                $filesystem->ensureDirectoryExists($destination);
+                $filesystem->copy($source, $target);
                 $this->info("  - Published: {$file}.php");
             } else {
                 $this->warn("  - Skipped: {$file}.php already exists.");
