@@ -4,24 +4,24 @@ namespace KaziSTM\Subscriptions\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class InstallCommand extends Command
 {
     protected $signature = 'subscriptions:install';
-    protected $description = 'Set up the subscriptions package (publish assets and create models)';
+    protected $description = 'Set up the subscriptions package (publish config, migrations, and create extendable model stubs)';
 
     public function handle()
     {
         $this->info('🔧 Publishing configuration and migrations...');
-        $this->call('vendor:publish', [
-            '--provider' => "KaziSTM\\Subscriptions\\SubscriptionServiceProvider",
-            '--tag' => 'config',
+
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'subscriptions-config',
         ]);
-        $this->call('vendor:publish', [
-            '--provider' => "KaziSTM\\Subscriptions\\SubscriptionServiceProvider",
-            '--tag' => 'migrations',
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'subscriptions-migrations',
         ]);
+
+        $this->info('✅ Config and migrations published.');
 
         $this->info('📦 Creating local model stubs...');
         $this->createModel('Plan');
@@ -30,7 +30,7 @@ class InstallCommand extends Command
         $this->createModel('Subscription');
         $this->createModel('Usage');
 
-        $this->info('✅ Subscriptions package is installed!');
+        $this->info('🎉 Subscriptions package is now installed!');
     }
 
     protected function createModel(string $name): void
