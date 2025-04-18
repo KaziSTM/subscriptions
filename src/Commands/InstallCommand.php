@@ -34,12 +34,12 @@ class InstallCommand extends Command
     {
         $this->info('📦 Publishing migrations...');
 
-        $this->publishFiles(
+        $this->publishMigrationsWithTimestamps(
             $this->packagePath('database/migrations'),
             database_path('migrations'),
             [
                 'create_plans_table',
-                'create_limitations_table',
+                'create_plan_limitations_table',
                 'create_plan_features_table',
                 'create_plan_subscriptions_table',
                 'create_plan_subscription_usage_table',
@@ -74,6 +74,25 @@ class InstallCommand extends Command
                 $filesystem->ensureDirectoryExists($to);
                 $filesystem->copy($source, $target);
                 $this->info("  - Published: {$file}.php");
+            } else {
+                $this->warn("  - Skipped: {$file}.php already exists.");
+            }
+        }
+    }
+
+    protected function publishMigrationsWithTimestamps(string $from, string $to, array $files): void
+    {
+        $filesystem = app(Filesystem::class);
+
+        foreach ($files as $index => $file) {
+            $timestamp = now()->addSeconds($index)->format('Y_m_d_His');
+            $source = "{$from}/{$file}.php";
+            $target = "{$to}/{$timestamp}_{$file}.php";
+
+            if (!file_exists($target)) {
+                $filesystem->ensureDirectoryExists($to);
+                $filesystem->copy($source, $target);
+                $this->info("  - Published: {$timestamp}_{$file}.php");
             } else {
                 $this->warn("  - Skipped: {$file}.php already exists.");
             }
