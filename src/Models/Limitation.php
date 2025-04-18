@@ -58,7 +58,7 @@ class Limitation extends Model implements Sortable
      * @var array
      */
     public $translatable = [
-        'name',
+        'title',
         'description',
     ];
 
