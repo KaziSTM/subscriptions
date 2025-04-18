@@ -21,15 +21,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Feature $feature
  * @property-read Subscription $subscription
  *
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage byFeatureSlug($featureSlug)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SubscriptionUsage whereValidUntil($value)
+ * @method static Builder|SubscriptionUsage byFeatureSlug($featureSlug)
+ * @method static Builder|SubscriptionUsage whereCreatedAt($value)
+ * @method static Builder|SubscriptionUsage whereDeletedAt($value)
+ * @method static Builder|SubscriptionUsage whereFeatureId($value)
+ * @method static Builder|SubscriptionUsage whereId($value)
+ * @method static Builder|SubscriptionUsage whereSubscriptionId($value)
+ * @method static Builder|SubscriptionUsage whereUpdatedAt($value)
+ * @method static Builder|SubscriptionUsage whereUsed($value)
+ * @method static Builder|SubscriptionUsage whereValidUntil($value)
  */
 class SubscriptionUsage extends Model
 {

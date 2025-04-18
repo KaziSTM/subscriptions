@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Kazistm\Subscriptions\Traits;
+namespace KaziSTM\Subscriptions\Traits;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Kazistm\Subscriptions\Models\Plan;
 use Kazistm\Subscriptions\Models\Subscription;
-use Kazistm\Subscriptions\Services\Period;
+use KaziSTM\Subscriptions\Services\Period;
 
 trait HasPlanSubscriptions
 {

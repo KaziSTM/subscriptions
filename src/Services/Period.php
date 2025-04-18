@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kazistm\Subscriptions\Services;
+namespace KaziSTM\Subscriptions\Services;
 
 use Carbon\Carbon;
 

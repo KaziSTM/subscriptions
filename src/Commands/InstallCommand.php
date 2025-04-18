@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace KaziSTM\Subscriptions\Commands;
 
 use Illuminate\Console\Command;
@@ -8,6 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 class InstallCommand extends Command
 {
     protected $signature = 'subscriptions:install';
+
     protected $description = 'Install the Subscriptions package (config, migrations, models)';
 
     public function handle(): void
@@ -61,7 +64,7 @@ class InstallCommand extends Command
             $source = "{$this->packagePath('src/Models')}/{$model}.php";
             $target = app_path("Models/{$model}.php");
 
-            if (!file_exists($target)) {
+            if (! file_exists($target)) {
                 $this->createModelTemplate($source, $target, $model);
                 $this->info("  - Published: {$model}.php");
             } else {
@@ -93,6 +96,7 @@ class InstallCommand extends Command
 
             if ($existingFile) {
                 $this->warn("  - Skipped: {$file}.php already exists.");
+
                 continue;
             }
 
@@ -100,7 +104,7 @@ class InstallCommand extends Command
             $source = "{$from}/{$file}.php";
             $target = "{$to}/{$timestamp}_{$file}.php";
 
-            if (!file_exists($target)) {
+            if (! file_exists($target)) {
                 $filesystem->ensureDirectoryExists($to);
                 $filesystem->copy($source, $target);
                 $this->info("  - Published: {$timestamp}_{$file}.php");

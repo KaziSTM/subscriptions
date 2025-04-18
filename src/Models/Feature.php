@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace KaziSTM\Subscriptions\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use InvalidArgumentException;
-use Kazistm\Subscriptions\Traits\BelongsToLimitation;
-use Laravelcm\Subscriptions\Services\Period;
-use Laravelcm\Subscriptions\Traits\BelongsToPlan;
-use Laravelcm\Subscriptions\Traits\HasSlug;
-use Laravelcm\Subscriptions\Traits\HasTranslations;
+use KaziSTM\Subscriptions\Services\Period;
+use KaziSTM\Subscriptions\Traits\BelongsToLimitation;
+use KaziSTM\Subscriptions\Traits\BelongsToPlan;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
-use Spatie\Sluggable\SlugOptions;
 
 /**
  * @property-read int|string $id
@@ -30,20 +28,20 @@ use Spatie\Sluggable\SlugOptions;
  * @property Carbon|null $deleted_at
  * @property-read Plan $plan
  * @property-read Limitation $limitation
- * @property-read \Illuminate\Database\Eloquent\Collection|SubscriptionUsage[] $usages
+ * @property-read Collection|SubscriptionUsage[] $usages
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Feature byPlanId($planId)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature ordered($direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature wherePlanId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereResettableInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereResettablePeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereValue($value)
+ * @method static Builder|Feature byPlanId($planId)
+ * @method static Builder|Feature ordered($direction = 'asc')
+ * @method static Builder|Feature whereCreatedAt($value)
+ * @method static Builder|Feature whereDeletedAt($value)
+ * @method static Builder|Feature whereDescription($value)
+ * @method static Builder|Feature whereId($value)
+ * @method static Builder|Feature wherePlanId($value)
+ * @method static Builder|Feature whereResettableInterval($value)
+ * @method static Builder|Feature whereResettablePeriod($value)
+ * @method static Builder|Feature whereSortOrder($value)
+ * @method static Builder|Feature whereUpdatedAt($value)
+ * @method static Builder|Feature whereValue($value)
  */
 class Feature extends Model implements Sortable
 {
@@ -73,10 +71,8 @@ class Feature extends Model implements Sortable
 
     /**
      * The attributes that are translatable.
-     *
-     * @var array
      */
-    public $translatable = [
+    public array $translatable = [
         'name',
         'description',
     ];

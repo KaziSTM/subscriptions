@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 use KaziSTM\Subscriptions\Models\Feature;
 use KaziSTM\Subscriptions\Models\Limitation;
 use KaziSTM\Subscriptions\Models\Plan;
@@ -21,7 +20,7 @@ return [
 
     'tables' => [
         'plans' => 'plans',
-        'limitations'=> 'limitations',
+        'limitations' => 'limitations',
         'features' => 'features',
         'subscriptions' => 'subscriptions',
         'subscription_usage' => 'subscription_usage',
@@ -40,7 +39,7 @@ return [
 
     'models' => [
         'plan' => Plan::class,
-        'limitation'=>Limitation::class,
+        'limitation' => Limitation::class,
         'feature' => Feature::class,
         'subscription' => Subscription::class,
         'subscription_usage' => SubscriptionUsage::class,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kazistm\Subscriptions\Traits;
+namespace KaziSTM\Subscriptions\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

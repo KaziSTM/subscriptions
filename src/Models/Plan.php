@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace KaziSTM\Subscriptions\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use KaziSTM\Subscriptions\Traits\HasSlug;
-use KaziSTM\Subscriptions\Traits\HasTranslations;
+use Kazistm\Subscriptions\Traits\HasSlug;
+use Kazistm\Subscriptions\Traits\HasTranslations;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Sluggable\SlugOptions;
@@ -34,35 +37,35 @@ use Spatie\Sluggable\SlugOptions;
  * @property int $prorate_extend_due
  * @property int $active_subscribers_limit
  * @property int $sort_order
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\KaziSTM\Subscriptions\Models\Feature[] $features
- * @property-read \Illuminate\Database\Eloquent\Collection|\KaziSTM\Subscriptions\Models\Subscription[] $subscriptions
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ * @property-read Collection|Feature[] $features
+ * @property-read Collection|Subscription[] $subscriptions
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Plan ordered($direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereActiveSubscribersLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereCurrency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereGraceInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereGracePeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereInvoiceInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereInvoicePeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereProrateDay($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereProrateExtendDue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereProratePeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereSignupFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereSortOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereTrialInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereTrialPeriod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereUpdatedAt($value)
+ * @method static Builder|Plan ordered($direction = 'asc')
+ * @method static Builder|Plan whereActiveSubscribersLimit($value)
+ * @method static Builder|Plan whereCreatedAt($value)
+ * @method static Builder|Plan whereCurrency($value)
+ * @method static Builder|Plan whereDeletedAt($value)
+ * @method static Builder|Plan whereDescription($value)
+ * @method static Builder|Plan whereGraceInterval($value)
+ * @method static Builder|Plan whereGracePeriod($value)
+ * @method static Builder|Plan whereId($value)
+ * @method static Builder|Plan whereInvoiceInterval($value)
+ * @method static Builder|Plan whereInvoicePeriod($value)
+ * @method static Builder|Plan whereIsActive($value)
+ * @method static Builder|Plan whereName($value)
+ * @method static Builder|Plan wherePrice($value)
+ * @method static Builder|Plan whereProrateDay($value)
+ * @method static Builder|Plan whereProrateExtendDue($value)
+ * @method static Builder|Plan whereProratePeriod($value)
+ * @method static Builder|Plan whereSignupFee($value)
+ * @method static Builder|Plan whereSlug($value)
+ * @method static Builder|Plan whereSortOrder($value)
+ * @method static Builder|Plan whereTrialInterval($value)
+ * @method static Builder|Plan whereTrialPeriod($value)
+ * @method static Builder|Plan whereUpdatedAt($value)
  */
 class Plan extends Model implements Sortable
 {
@@ -166,7 +169,7 @@ class Plan extends Model implements Sortable
     public function getFeatureBySlug(string $limitationSlug): ?Feature
     {
         return $this->features()
-            ->whereHas('limitation',fn($limitation)=>$limitation->where('slug', $limitationSlug))
+            ->whereHas('limitation', fn ($limitation) => $limitation->where('slug', $limitationSlug))
             ->first();
     }
 

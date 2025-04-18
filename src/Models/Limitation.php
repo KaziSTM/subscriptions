@@ -1,39 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace KaziSTM\Subscriptions\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use KaziSTM\Subscriptions\Traits\HasSlug;
-use KaziSTM\Subscriptions\Traits\HasTranslations;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Kazistm\Subscriptions\Traits\HasSlug;
+use Kazistm\Subscriptions\Traits\HasTranslations;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
+use Spatie\Sluggable\SlugOptions;
 
 /**
-* @property string $slug
-* @property array $title
-* @property array $description*
+ * @property string $slug
+ * @property array $title
+ * @property array $description*
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
 
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Feature whereSlug($value)
+ * @method static Builder|Feature whereCreatedAt($value)
+ * @method static Builder|Feature whereDeletedAt($value)
+ * @method static Builder|Feature whereDescription($value)
+ * @method static Builder|Feature whereId($value)
+ * @method static Builder|Feature whereTitle($value)
+ * @method static Builder|Feature whereSlug($value)
  **/
-
-
 class Limitation extends Model implements Sortable
 {
-
     use HasFactory;
     use HasSlug;
     use HasTranslations;
     use SoftDeletes;
     use SortableTrait;
 
-    protected  $fillable = [
+    protected $fillable = [
         'slug',
         'title',
         'description',
@@ -86,6 +93,4 @@ class Limitation extends Model implements Sortable
     {
         return $this->hasMany(config('subscriptions.models.feature'));
     }
-
-
 }
