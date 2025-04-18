@@ -14,9 +14,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use KaziSTM\Subscriptions\Services\Period;
-use Kazistm\Subscriptions\Traits\BelongsToPlan;
-use Kazistm\Subscriptions\Traits\HasSlug;
-use Kazistm\Subscriptions\Traits\HasTranslations;
+use KaziSTM\Subscriptions\Traits\BelongsToPlan;
+use KaziSTM\Subscriptions\Traits\HasSlug;
+use KaziSTM\Subscriptions\Traits\HasTranslations;
 use LogicException;
 use Spatie\Sluggable\SlugOptions;
 
