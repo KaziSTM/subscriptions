@@ -1,0 +1,14 @@
+{
+  "preset": "laravel",
+  "rules": {
+    "concat_space": {
+      "spacing": "one"
+    },
+    "array_indentation": true,
+    "array_syntax": true,
+    "blank_line_before_statement": true,
+    "declare_strict_types": true,
+    "declare_parentheses": true,
+    "ordered_traits": true
+  }
+}

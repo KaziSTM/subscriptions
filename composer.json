@@ -1,0 +1,73 @@
+{
+  "name": "kazistm/subscriptions",
+  "description": "Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
+  "type": "library",
+  "keywords": [
+    "plan",
+    "limitation",
+    "value",
+    "laravel",
+    "feature",
+    "database",
+    "recurring",
+    "subscription"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Nezrek Youcef",
+      "email": "ynezrek@netgrid.dev"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "illuminate/console": "^10.0|^11.0|^12.0",
+    "illuminate/container": "^10.0|^11.0|^12.0",
+    "illuminate/database": "^10.0|^11.0|^12.0",
+    "illuminate/support": "^10.0|^11.0|^12.0",
+    "spatie/eloquent-sortable": "^4.0.0",
+    "spatie/laravel-package-tools": "^1.16",
+    "spatie/laravel-sluggable": "^3.4.2",
+    "spatie/laravel-translatable": "^6.5.0"
+  },
+  "require-dev": {
+    "larastan/larastan": "^2.0|^3.0",
+    "laravel/pint": "^1.13",
+    "orchestra/testbench": "^8.0|^9.0|^10.0",
+    "pestphp/pest": "^2.18|^3.7",
+    "spatie/test-time": "^1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "KaziSTM\\Subscriptions\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "KaziSTM\\Subscriptions\\SubscriptionServiceProvider"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/src",
+      "Tests\\Database\\Factories\\": "tests/database/factories"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/bin/pest",
+    "lint": "./vendor/bin/pint",
+    "types": "./vendor/bin/phpstan analyse --memory-limit=2g"
+  },
+  "config": {
+    "sort-packages": true,
+    "preferred-install": "dist",
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": false
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+}
