@@ -85,6 +85,13 @@ class InstallCommand extends Command
         $filesystem = app(Filesystem::class);
 
         foreach ($files as $index => $file) {
+            $existingFile = collect(glob("{$to}/*_{$file}.php"))->first();
+
+            if ($existingFile) {
+                $this->warn("  - Skipped: {$file}.php already exists.");
+                continue;
+            }
+
             $timestamp = now()->addSeconds($index)->format('Y_m_d_His');
             $source = "{$from}/{$file}.php";
             $target = "{$to}/{$timestamp}_{$file}.php";
@@ -98,7 +105,6 @@ class InstallCommand extends Command
             }
         }
     }
-
     protected function packagePath(string $path = ''): string
     {
         return dirname(__DIR__, 2) . ($path ? "/{$path}" : '');
