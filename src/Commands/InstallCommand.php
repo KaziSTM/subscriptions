@@ -35,9 +35,9 @@ class InstallCommand extends Command
         $this->info('📦 Publishing migrations...');
 
         $this->publishFiles(
-            basePath: dirname(__DIR__, 2) . '/database/migrations',
-            destination: database_path('migrations'),
-            files: [
+            $this->packagePath('database/migrations'),
+            database_path('migrations'),
+            [
                 'create_plans_table',
                 'create_limitations_table',
                 'create_plan_features_table',
@@ -50,9 +50,9 @@ class InstallCommand extends Command
     protected function publishModels(): void
     {
         $this->publishFiles(
-            basePath: dirname(__DIR__) . '/Models',
-            destination: app_path('Models'),
-            files: [
+            $this->packagePath('src/Models'),
+            app_path('Models'),
+            [
                 'Plan',
                 'Feature',
                 'Limitation',
@@ -62,21 +62,26 @@ class InstallCommand extends Command
         );
     }
 
-    protected function publishFiles(string $basePath, string $destination, array $files): void
+    protected function publishFiles(string $from, string $to, array $files): void
     {
         $filesystem = app(Filesystem::class);
 
         foreach ($files as $file) {
-            $source = "{$basePath}/{$file}.php";
-            $target = "{$destination}/{$file}.php";
+            $source = "{$from}/{$file}.php";
+            $target = "{$to}/{$file}.php";
 
             if (!file_exists($target)) {
-                $filesystem->ensureDirectoryExists($destination);
+                $filesystem->ensureDirectoryExists($to);
                 $filesystem->copy($source, $target);
                 $this->info("  - Published: {$file}.php");
             } else {
                 $this->warn("  - Skipped: {$file}.php already exists.");
             }
         }
+    }
+
+    protected function packagePath(string $path = ''): string
+    {
+        return dirname(__DIR__, 2) . ($path ? "/{$path}" : '');
     }
 }
