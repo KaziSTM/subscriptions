@@ -2,6 +2,7 @@
 
 namespace KaziSTM\Subscriptions\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use KaziSTM\Subscriptions\Traits\HasSlug;
 use KaziSTM\Subscriptions\Traits\HasTranslations;
 

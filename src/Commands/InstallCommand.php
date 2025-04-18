@@ -49,35 +49,39 @@ class InstallCommand extends Command
 
     protected function publishModels(): void
     {
-        $this->publishFiles(
-            $this->packagePath('src/Models'),
-            app_path('Models'),
-            [
-                'Plan',
-                'Feature',
-                'Limitation',
-                'Subscription',
-                'SubscriptionUsage',
-            ]
-        );
+        $models = [
+            'Plan',
+            'Feature',
+            'Limitation',
+            'Subscription',
+            'SubscriptionUsage',
+        ];
+
+        foreach ($models as $model) {
+            $source = "{$this->packagePath('src/Models')}/{$model}.php";
+            $target = app_path("Models/{$model}.php");
+
+            if (!file_exists($target)) {
+                $this->createModelTemplate($source, $target, $model);
+                $this->info("  - Published: {$model}.php");
+            } else {
+                $this->warn("  - Skipped: {$model}.php already exists.");
+            }
+        }
     }
 
-    protected function publishFiles(string $from, string $to, array $files): void
+    protected function createModelTemplate(string $source, string $target, string $model): void
     {
         $filesystem = app(Filesystem::class);
 
-        foreach ($files as $file) {
-            $source = "{$from}/{$file}.php";
-            $target = "{$to}/{$file}.php";
+        $filesystem->ensureDirectoryExists(app_path('Models'));
 
-            if (!file_exists($target)) {
-                $filesystem->ensureDirectoryExists($to);
-                $filesystem->copy($source, $target);
-                $this->info("  - Published: {$file}.php");
-            } else {
-                $this->warn("  - Skipped: {$file}.php already exists.");
-            }
-        }
+        // Get the content of the model and replace the base class
+        $content = file_get_contents($source);
+        $content = str_replace('extends Model', 'extends \KaziSTM\Subscriptions\Models\Model', $content);
+
+        // Create the model in the target location
+        file_put_contents($target, $content);
     }
 
     protected function publishMigrationsWithTimestamps(string $from, string $to, array $files): void
@@ -105,6 +109,7 @@ class InstallCommand extends Command
             }
         }
     }
+
     protected function packagePath(string $path = ''): string
     {
         return dirname(__DIR__, 2) . ($path ? "/{$path}" : '');
