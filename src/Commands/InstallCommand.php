@@ -3,62 +3,85 @@
 namespace KaziSTM\Subscriptions\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
 
 class InstallCommand extends Command
 {
     protected $signature = 'subscriptions:install';
-    protected $description = 'Set up the subscriptions package (publish config, migrations, and create extendable model stubs)';
+    protected $description = 'Install the Subscriptions package (config, migrations, models)';
 
-    public function handle()
+    public function handle(): void
     {
-        $this->info('🔧 Publishing configuration and migrations...');
+        $this->info('🔧 Installing Subscriptions Package...');
 
-        $this->callSilent('vendor:publish', [
-            '--tag' => 'subscriptions-config',
-        ]);
-        $this->callSilent('vendor:publish', [
-            '--tag' => 'subscriptions-migrations',
-        ]);
+        $this->publishResources();
 
-        $this->info('✅ Config and migrations published.');
-
-        $this->info('📦 Creating local model stubs...');
-        $this->createModel('Plan');
-        $this->createModel('Feature');
-        $this->createModel('Limitation');
-        $this->createModel('Subscription');
-        $this->createModel('Usage');
-
-        $this->info('🎉 Subscriptions package is now installed!');
+        $this->info('✅ Subscriptions installed successfully!');
     }
 
-    protected function createModel(string $name): void
+    protected function publishResources(): void
     {
-        $namespace = "App\\Models";
-        $path = app_path("Models/{$name}.php");
+        $this->publishConfig();
+        $this->publishMigrations();
+        $this->publishModels();
+    }
 
-        if (File::exists($path)) {
-            $this->line("⏩ {$name} already exists. Skipping.");
-            return;
+    protected function publishConfig(): void
+    {
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'subscriptions-config',
+            '--force' => true,
+        ]);
+        $this->info('📁 Config file published.');
+    }
+
+    protected function publishMigrations(): void
+    {
+        $this->info('📦 Publishing migrations...');
+
+        $this->publishFilesFromStubs(
+            __DIR__ . "/../../database/migrations",
+            'migrations',
+            [
+                'create_plans_table',
+                'create_limitations_table',
+                'create_plan_features_table',
+                'create_plan_subscriptions_table',
+                'create_plan_subscription_usage_table',
+            ]
+        );
+    }
+
+    protected function publishModels(): void
+    {
+        $this->publishFilesFromStubs(
+            __DIR__ . "/../../stubs/Models",
+            'Models',
+            [
+                'Plan',
+                'Feature',
+                'Limitation',
+                'Subscription',
+                'Usage',
+            ]
+        );
+    }
+
+    protected function publishFilesFromStubs(string $stubDir, string $type, array $files): void
+    {
+        $filesystem = app(Filesystem::class);
+
+        foreach ($files as $file) {
+            $source = "{$stubDir}/{$file}.php.stub";
+            $destination = app_path("{$type}/{$file}.php");
+
+            if (!file_exists($destination)) {
+                $filesystem->ensureDirectoryExists(app_path($type));
+                $filesystem->copy($source, $destination);
+                $this->info("  - Published: {$file}.php");
+            } else {
+                $this->warn("  - Skipped: {$file}.php already exists.");
+            }
         }
-
-        $stub = <<<PHP
-<?php
-
-namespace {$namespace};
-
-use KaziSTM\Subscriptions\Models\\{$name} as Base{$name};
-
-class {$name} extends Base{$name}
-{
-    //
-}
-PHP;
-
-        File::ensureDirectoryExists(app_path('Models'));
-        File::put($path, $stub);
-
-        $this->line("✅ Created: app/Models/{$name}.php");
     }
 }
