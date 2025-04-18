@@ -57,7 +57,7 @@ class InstallCommand extends Command
                 'Feature',
                 'Limitation',
                 'Subscription',
-                'Usage',
+                'SubscriptionUsage',
             ]
         );
     }
