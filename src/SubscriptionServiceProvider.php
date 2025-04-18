@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kazistm\Subscriptions;
+namespace KaziSTM\Subscriptions;
 
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use KaziSTM\Subscriptions\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Commands\InstallCommand as SpatieInstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -21,10 +22,19 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
                 'create_plan_subscriptions_table',
                 'create_plan_subscription_usage_table',
             ])
-            ->hasInstallCommand(function (InstallCommand $command): void {
+            ->hasInstallCommand(function (SpatieInstallCommand $command): void {
                 $command
                     ->publishConfigFile()
                     ->publishMigrations();
             });
+    }
+
+    public function packageBooted(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+            ]);
+        }
     }
 }
