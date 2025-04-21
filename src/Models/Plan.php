@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use KaziSTM\Subscriptions\Traits\HasLimitations;
 use KaziSTM\Subscriptions\Traits\HasSlug;
 use KaziSTM\Subscriptions\Traits\HasTranslations;
 use Spatie\EloquentSortable\Sortable;
@@ -70,6 +72,7 @@ use Spatie\Sluggable\SlugOptions;
 class Plan extends Model implements Sortable
 {
     use HasFactory;
+    use HasLimitations;
     use HasSlug;
     use HasTranslations;
     use SoftDeletes;
@@ -149,6 +152,24 @@ class Plan extends Model implements Sortable
     public function subscriptions(): HasMany
     {
         return $this->hasMany(config('subscriptions.models.subscription'));
+    }
+
+    /**
+     * Get the limitations associated with this plan through its features.
+     * A plan has limitations via the features defined for it.
+     */
+    public function limitations(): HasManyThrough
+    {
+        // Assumes Limitation model is KaziSTM\Subscriptions\Models\Limitation
+        // Assumes Feature model is KaziSTM\Subscriptions\Models\Feature
+        return $this->hasManyThrough(
+            config('subscriptions.models.limitation'), // Target model (Limitation)
+            config('subscriptions.models.feature'),    // Intermediate model (Feature)
+            'plan_id',                                 // Foreign key on intermediate table (features.plan_id)
+            'id',                                      // Foreign key on target table (limitations.id)
+            'id',                                      // Local key on starting table (plans.id)
+            'limitation_id'                          // Local key on intermediate table (features.limitation_id)
+        );
     }
 
     public function isFree(): bool

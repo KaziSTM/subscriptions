@@ -84,7 +84,7 @@ class Limitation extends Model implements Sortable
     {
         return SlugOptions::create()
             ->doNotGenerateSlugsOnUpdate()
-            ->generateSlugsFrom('name')
+            ->generateSlugsFrom('title')
             ->allowDuplicateSlugs()
             ->saveSlugsTo('slug');
     }

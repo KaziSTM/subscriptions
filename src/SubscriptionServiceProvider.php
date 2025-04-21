@@ -4,13 +4,25 @@ declare(strict_types=1);
 
 namespace KaziSTM\Subscriptions;
 
+use Illuminate\Routing\Router;
 use KaziSTM\Subscriptions\Commands\InstallCommand;
+use KaziSTM\Subscriptions\Http\Middleware\CheckPlanFeatures;
+use KaziSTM\Subscriptions\Http\Middleware\CheckSubscription;
 use Spatie\LaravelPackageTools\Commands\InstallCommand as SpatieInstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 final class SubscriptionServiceProvider extends PackageServiceProvider
 {
+    public function packageRegistered(): void
+    {
+        parent::packageRegistered();
+
+        $router = $this->app->make(Router::class);
+        $router->aliasMiddleware('subscription.active', CheckSubscription::class);
+        $router->aliasMiddleware('subscription.feature', CheckPlanFeatures::class);
+    }
+
     public function configurePackage(Package $package): void
     {
         $package->name('subscriptions')
@@ -23,6 +35,7 @@ final class SubscriptionServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        parent::packageBooted();
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
