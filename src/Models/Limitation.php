@@ -19,18 +19,20 @@ use Spatie\Sluggable\SlugOptions;
 /**
  * @property string $slug
  * @property array $title
- * @property array $description*
+ * @property array $description
+ * @property string $type
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  *
 
- * @method static Builder|Feature whereCreatedAt($value)
- * @method static Builder|Feature whereDeletedAt($value)
- * @method static Builder|Feature whereDescription($value)
- * @method static Builder|Feature whereId($value)
- * @method static Builder|Feature whereTitle($value)
- * @method static Builder|Feature whereSlug($value)
+ * @method static Builder|Limitation whereCreatedAt($value)
+ * @method static Builder|Limitation whereDeletedAt($value)
+ * @method static Builder|Limitation whereDescription($value)
+ * @method static Builder|Limitation whereId($value)
+ * @method static Builder|Limitation whereTitle($value)
+ * @method static Builder|Limitation whereSlug($value)
+ * @method static Builder|Limitation whereType($value)
  **/
 class Limitation extends Model implements Sortable
 {
@@ -44,6 +46,7 @@ class Limitation extends Model implements Sortable
         'slug',
         'title',
         'description',
+        'type',
         'sort_order',
     ];
 

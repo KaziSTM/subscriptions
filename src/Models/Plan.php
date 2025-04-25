@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KaziSTM\Subscriptions\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -206,5 +207,14 @@ class Plan extends Model implements Sortable
         $this->update(['is_active' => false]);
 
         return $this;
+    }
+
+    /**
+     * Scope a query to only include active plans.
+     */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where('is_active', 1);
     }
 }
