@@ -1,7 +1,7 @@
 # KaziSTM Subscriptions
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/kazi-stm/subscriptions.svg?style=flat-square)](https://packagist.org/packages/kazi-stm/subscriptions)
-[![Total Downloads](https://img.shields.io/packagist/dt/kazi-stm/subscriptions.svg?style=flat-square)](https://packagist.org/packages/kazi-stm/subscriptions)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kazi-stm/subscriptions.svg?style=flat-square)](https://packagist.org/packages/kazistm/subscriptions)
+[![Total Downloads](https://img.shields.io/packagist/dt/kazi-stm/subscriptions.svg?style=flat-square)](https://packagist.org/packages/kazistm/subscriptions)
 [![License](https://img.shields.io/packagist/l/kazi-stm/subscriptions?style=flat-square)](https://github.com/KaziSTM/subscriptions/blob/main/LICENSE.md)
 **A flexible and extendable subscription and plan management system for Laravel applications, particularly suited for SaaS products.** This package provides tools to manage recurring plans, features with usage limits, and subscription lifecycles.
 
