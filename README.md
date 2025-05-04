@@ -51,7 +51,7 @@ This package is based on, and aims to enhance, the foundation laid by `laravelcm
 ## Requirements
 
 * PHP: >= 8.2
-* Laravel: >= 10.x (Please verify and adjust)
+* Laravel: >= 10.x
 
 ## Installation
 
