@@ -1,7 +1,7 @@
 {
   "name": "kazistm/subscriptions",
   "description": "Flexible Laravel subscription and plan management system with features, limitations, and usage tracking.",
-  "type": "library",
+  "type": "laravel-package",
   "keywords": [
     "billing",
     "database",
@@ -64,11 +64,7 @@
   "scripts": {
     "test": "./vendor/bin/pest",
     "lint": "./vendor/bin/pint",
-    "types": "./vendor/bin/phpstan analyse --memory-limit=2g",
-    "post-update-cmd": [
-      "@php artisan vendor:publish --tag=config --provider=\"KaziSTM\\Subscriptions\\SubscriptionServiceProvider\"",
-      "@php artisan vendor:publish --tag=migrations --provider=\"KaziSTM\\Subscriptions\\SubscriptionServiceProvider\""
-    ]
+    "types": "./vendor/bin/phpstan analyse --memory-limit=2g"
   },
   "config": {
     "sort-packages": true,
@@ -78,9 +74,9 @@
     },
     "optimize-autoloader": true,
     "allow-plugins": {
-      "pestphp/pest-plugin": false
+      "pestphp/pest-plugin": true
     }
   },
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
   "prefer-stable": true
 }
